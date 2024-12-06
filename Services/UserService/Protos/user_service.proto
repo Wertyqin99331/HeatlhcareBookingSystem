@@ -1,0 +1,74 @@
+syntax = "proto3";
+
+option csharp_namespace = "UserService";
+
+package user_service;
+
+import "google/protobuf/timestamp.proto";
+
+service UserService {
+  rpc RegisterDoctor(RegisterDoctorRequest) returns (RegisterDoctorResponse);
+  rpc RegisterPatient(RegisterPatientRequest) returns (RegisterPatientResponse);
+  rpc Login(LoginRequest) returns (LoginResponse);
+}
+
+message ErrorResponse {
+  uint32 status = 1;
+  string message = 2;
+  string detail = 3;
+}
+
+message RegisterDoctorRequest {
+  string email = 1;
+  string password = 2;
+  string first_name = 3;
+  string surname = 4;
+  google.protobuf.Timestamp date_of_birth = 5;
+}
+
+message RegisterDoctorResponse {
+  oneof response {
+    SuccessRegisterDoctorResponse success = 1;
+    ErrorResponse error = 2;
+  }
+}
+
+message SuccessRegisterDoctorResponse {}
+
+message RegisterPatientRequest {
+  string email = 1;
+  string password = 2;
+  string first_name = 3;
+  string surname = 4;
+}
+
+message RegisterPatientResponse {
+  oneof response {
+    SuccessRegisterPatientResponse success = 1;
+    ErrorResponse error = 2;
+  }
+}
+
+message SuccessRegisterPatientResponse {}
+
+message LoginRequest {
+  string email = 1;
+  string password = 2;
+}
+
+message LoginResponse {
+  oneof response {
+    SuccessLoginResponse success = 1;
+    ErrorResponse error = 2;
+  }
+}
+
+message SuccessLoginResponse {
+  string token = 1;
+  string role = 2;
+}
+
+
+
+
+
