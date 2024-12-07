@@ -10,6 +10,18 @@
       <PackageReference Include="CSharpFunctionalExtensions" Version="3.2.0" />
       <PackageReference Include="Mapster" Version="7.4.0" />
       <PackageReference Include="Mapster.DependencyInjection" Version="1.0.1" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="8.0.11" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.11" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="Microsoft.EntityFrameworkCore">
+        <HintPath>..\..\..\..\..\.nuget\packages\microsoft.entityframeworkcore\8.0.11\lib\net8.0\Microsoft.EntityFrameworkCore.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+        <FrameworkReference Include="Microsoft.AspNetCore.App" />
     </ItemGroup>
 
 </Project>

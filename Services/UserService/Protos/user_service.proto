@@ -5,16 +5,34 @@ option csharp_namespace = "UserService";
 package user_service;
 
 import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+import "google/api/annotations.proto";
 
 service UserService {
-  rpc RegisterDoctor(RegisterDoctorRequest) returns (RegisterDoctorResponse);
-  rpc RegisterPatient(RegisterPatientRequest) returns (RegisterPatientResponse);
-  rpc Login(LoginRequest) returns (LoginResponse);
+
+  rpc RegisterDoctor(RegisterDoctorRequest) returns (RegisterDoctorResponse) {
+    option (google.api.http) = {
+      post: "/register/doctor",
+      body: "*"
+    };
+  }
+  rpc RegisterPatient(RegisterPatientRequest) returns (RegisterPatientResponse) {
+    option (google.api.http) = {
+      post: "/register/patient",
+      body: "*"
+    };
+  };
+  rpc Login(LoginRequest) returns (LoginResponse) {
+    option (google.api.http) = {
+      post: "/login",
+      body: "*"
+    };
+  };
 }
 
 message ErrorResponse {
   uint32 status = 1;
-  string message = 2;
+  string title = 2;
   string detail = 3;
 }
 
@@ -28,28 +46,25 @@ message RegisterDoctorRequest {
 
 message RegisterDoctorResponse {
   oneof response {
-    SuccessRegisterDoctorResponse success = 1;
+    google.protobuf.Empty success = 1;
     ErrorResponse error = 2;
   }
 }
-
-message SuccessRegisterDoctorResponse {}
 
 message RegisterPatientRequest {
   string email = 1;
   string password = 2;
   string first_name = 3;
   string surname = 4;
+  google.protobuf.Timestamp date_of_birth = 5;
 }
 
 message RegisterPatientResponse {
   oneof response {
-    SuccessRegisterPatientResponse success = 1;
+    google.protobuf.Empty success = 1;
     ErrorResponse error = 2;
   }
 }
-
-message SuccessRegisterPatientResponse {}
 
 message LoginRequest {
   string email = 1;
@@ -65,7 +80,7 @@ message LoginResponse {
 
 message SuccessLoginResponse {
   string token = 1;
-  string role = 2;
+  repeated string roles = 2;
 }
 
 

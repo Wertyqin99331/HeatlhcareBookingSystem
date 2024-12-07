@@ -9,9 +9,12 @@ public sealed class Doctor : User
     private Doctor()
     {}
     
-    private Doctor(string email, Name firstname, Name surname, DateOnly birthDate) : base(email, firstname, surname,
+    private Doctor(string email, Name firstname, Name surname, DateOnly birthDate) : base(firstname, surname,
         birthDate)
     {
+        this.Email = email;
+        this.NormalizedEmail = email.ToUpper();
+        this.UserName = email;
     }
 
     public List<DoctorSpecialization> Specializations { get; private set; } = [];
@@ -38,21 +41,7 @@ public class DoctorConfiguration : IEntityTypeConfiguration<Doctor>
 {
     public void Configure(EntityTypeBuilder<Doctor> builder)
     {
-        builder.ToTable("Doctors").HasKey(c => c.Id);
-
-        builder.ComplexProperty(c => c.Firstname, pb =>
-        {
-            pb.Property(fn => fn.Value)
-                .HasMaxLength(Name.MAX_LENGTH)
-                .HasColumnName("Firstname");
-        });
-        
-        builder.ComplexProperty(c => c.Surname, pb =>
-        {
-            pb.Property(sn => sn.Value)
-                .HasMaxLength(Name.MAX_LENGTH)
-                .HasColumnName("Surname");
-        });
+        builder.ToTable("Doctors");
         
         builder.HasMany(d => d.Specializations)
             .WithMany(s => s.Doctors)

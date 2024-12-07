@@ -3,12 +3,12 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using UserService.Data.Models;
 using UserService.Data.Models.User;
+using UserService.Data.ValueObjects.User;
 
 namespace UserService.Data;
 
 public class UserDbContext(IConfiguration configuration): IdentityDbContext<User, IdentityRole<Guid>, Guid>
 {
-    public DbSet<User> UserAccounts { get; set; } = null!;
     public DbSet<Patient> Clients { get; set; } = null!;
     public DbSet<Doctor> Doc { get; set; } = null!;
 
@@ -26,5 +26,11 @@ public class UserDbContext(IConfiguration configuration): IdentityDbContext<User
         builder.ApplyConfigurationsFromAssembly(typeof(UserDbContext).Assembly);
 
         builder.HasDefaultSchema("UserService");
+        SeedAdmin(builder);
+    }
+
+    private void SeedAdmin(ModelBuilder builder)
+    {
+        
     }
 }

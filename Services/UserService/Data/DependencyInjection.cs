@@ -8,19 +8,42 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddDataServices(this IServiceCollection services)
     {
+        services.AddDataProtection();
         services.AddDbContext<UserDbContext>();
 
-        services.AddIdentityCore<User>()
+        services.AddIdentityCore<User>(options =>
+            {
+                options.Password.RequiredLength = 8;
+                options.Password.RequireUppercase = true;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+            })
+            .AddUserManager<UserManager<User>>()
             .AddRoles<IdentityRole<Guid>>()
             .AddEntityFrameworkStores<UserDbContext>()
             .AddDefaultTokenProviders();
-        
-        services.AddIdentityCore<Patient>()
+
+        services.AddIdentityCore<Patient>(options =>
+            {
+                options.Password.RequiredLength = 8;
+                options.Password.RequireUppercase = true;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+            })
+            .AddUserManager<UserManager<Patient>>()
             .AddRoles<IdentityRole<Guid>>()
             .AddEntityFrameworkStores<UserDbContext>()
             .AddDefaultTokenProviders();
-            
-        services.AddIdentityCore<Doctor>()
+
+
+        services.AddIdentityCore<Doctor>(options =>
+            {
+                options.Password.RequiredLength = 8;
+                options.Password.RequireUppercase = true;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+            })
+            .AddUserManager<UserManager<Doctor>>()
             .AddRoles<IdentityRole<Guid>>()
             .AddEntityFrameworkStores<UserDbContext>()
             .AddDefaultTokenProviders();
